@@ -1,4 +1,4 @@
-# EXPT 2 - Verification of Logic Gates
+<img width="940" height="318" alt="image" src="https://github.com/user-attachments/assets/bde3308a-cf64-4633-9953-b3686bd286c2" /><img width="940" height="318" alt="image" src="https://github.com/user-attachments/assets/9f6efded-6ee8-4293-aace-e027c0e5a3dc" /># EXPT 2 - Verification of Logic Gates
 ### SIMULATION AND VERIFICATION OF AND, OR, AND NOT GATES
 ## Aim
 To design, implement, and verify the functionality of basic AND, OR, and NOT logic gates using Verilog HDL, and verify the functionality using Synopsys VCS and DVE.
@@ -20,9 +20,56 @@ Logic gates are the basic building blocks of digital systems. NAND and NOR are u
 File name	Purpose
 logic_gates.v	Logic-gate RTL
 logic_gates_tb.v	All input combinations and VCD generation
- # Verilog  Program
+ # Verilog  Progrmodule basic_gates (
+    input  wire a,
+    input  wire b,
+    output wire y_and,
+    output wire y_or,
+    output wire y_not
+);
+
+    assign y_and = a & b;   // AND gate
+    assign y_or  = a | b;   // OR gate
+    assign y_not = ~a;      // NOT gate (inverter)
+
+endmodule
+
+ 
+ 
 
 # **Test Bench Program**
+    reg a, b;
+    wire y_and, y_or, y_not;
+
+    // Instantiate the design under test (DUT)
+    basic_gates uut (
+        .a(a),
+        .b(b),
+        .y_and(y_and),
+        .y_or(y_or),
+        .y_not(y_not)
+    );
+
+    initial begin
+        // ---- VCD dump setup ----
+        $dumpfile("basic_gates.vcd");   // name of the VCD file to be generated
+        $dumpvars(0, tb2);               // dump all signals in this testbench hierarchy
+
+        // ---- Apply all 4 input combinations ----
+        $monitor("Time=%0t a=%b b=%b | AND=%b OR=%b NOT(a)=%b", $time, a, b, y_and, y_or, y_not);
+
+        a = 0; b = 0; #10;
+        a = 0; b = 1; #10;
+        a = 1; b = 0; #10;
+        a = 1; b = 1; #10;
+
+        #10 $finish;
+#10;
+    end
+
+endmodule
+
+
 
 
 
@@ -78,6 +125,7 @@ Y_NOT = A'
 The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis, matching the expected truth table.
 Output
 # OUTPUT
+<img width="1913" height="1008" alt="Screenshot 2026-11-12 153922" src="https://github.com/user-attachments/assets/40e2871d-907c-44f3-87ca-923dc9fba389" />
 
 
  
